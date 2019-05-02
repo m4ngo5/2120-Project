@@ -26,8 +26,10 @@ timestamp time1, time2, time3, avg;
 //Function declarations
 void binary(int repetitions, int arrSize, int a, int b, int c);
 void linear(int repetitions, int arrSize, int a, int b, int c);
-int binarySearch(int arr[], int arrSize, int elem);     //returns count of iterations
-int linearSearch(int arr[], int arrSize, int elem);     //returns count of iterations
+void interpolation(int repetitions, int arrSize, int a, int b, int c);
+int binarySearch(int arr[], int arrSize, int elem);             //returns count of iterations
+int linearSearch(int arr[], int arrSize, int elem);             //returns count of iterations
+int interpolationSearch(int arr[], int arrSize, int elem);      //returns count of iterations
 
 int main(){
     
@@ -57,6 +59,15 @@ int main(){
     linear(REPS, 10000, 3, 48611, 104723);
     linear(REPS, 100000, 3, 611953, 1299689);
     linear(REPS, 250000, 3, 1655131, 3497849);
+
+//Interpolation Search Algorithm Searches
+    //usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
+    interpolation(REPS, 10, 2, 5, 7);
+    interpolation(REPS, 100, 3, 229, 523);
+    interpolation(REPS, 1000, 3, 3571, 7907);
+    interpolation(REPS, 10000, 3, 48611, 104723);
+    interpolation(REPS, 100000, 3, 611953, 1299689);
+    interpolation(REPS, 250000, 3, 1655131, 3497849);
     return 0;
 }
 
@@ -142,6 +153,57 @@ int linearSearch(int arr[], int arrSize, int elem){
         }
     }
     stop = chrono::high_resolution_clock::now();
+    return -1;
+}
+void interpolation(int repetitions, int arrSize, int a, int b, int c){
+    //Write algorithm run information to csv
+    ofstream ofs;
+    ofs.open("results.csv", std::ofstream::app);
+    for(int i = 0; i < repetitions; i++){
+        ofs << "Interpolation Search," << arrSize << "," << i+1 << ",";
+        
+        //search a
+        count = interpolationSearch(primesArr, arrSize, a);
+        time1 = duration_cast<TIME_UNIT>(stop - start);
+        ofs << a << "," << duration_cast<nanoseconds>(stop-start).count() << "," << count << ",";
+        
+        //search b
+        count = interpolationSearch(primesArr, arrSize, b);
+        time2 = duration_cast<TIME_UNIT>(stop - start);
+        ofs << b << "," << time2.count() << "," << count << ",";
+        
+        //search c
+        count = interpolationSearch(primesArr, arrSize, c);
+        time3 = duration_cast<TIME_UNIT>(stop - start);
+        ofs << c << "," << time3.count() << "," << count << ",";
+
+        //average
+        ofs << 1.0*(time1.count() + time2.count() + time3.count())/3 << endl;
+    }    
+    ofs.close();
+}
+int interpolationSearch(int arr[], int arrSize, int elem){
+    start = high_resolution_clock::now();
+    int left = 0, right = arrSize-1, pos;
+    count = 1;
+    while(left <= right && elem >= arr[left] && elem <= arr[right]){
+        if(left == right){
+            if(arr[left] == elem){
+                stop = chrono::high_resolution_clock::now();
+                return count;
+            }
+            stop = chrono::high_resolution_clock::now();  
+            return -1;
+        }
+        pos = left + ( ( (double)(right - left) / (arr[right] - arr[left])) * (elem - arr[left]));
+        if(arr[pos] == elem) return pos; 
+        if(arr[pos] < elem) left = pos + 1;
+        else{
+            right = pos - 1;
+        }
+        count++;
+    }
+    stop = chrono::high_resolution_clock::now();  
     return -1;
 }
 void loadPrimes(int loadSize) {
