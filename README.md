@@ -1,4 +1,4 @@
-# 2120-Project
+# 2120-Project Overview
 Testing searching and sorting algorithm time efficiency in C++
 
 # Compilation
