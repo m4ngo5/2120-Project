@@ -1,88 +1,65 @@
-// searchAlgos.cpp
-// 1 - Binary Search
-// 2 - Linear Search
-// 3 - Interpolation Search
+// sortAlgos.cpp
+// 1 - Selection Sort
+// 2 - Heap Sort
+// 3 - Quick Sort
 
-//Written for C++99
+searchAlgos::searchAlgos(){
 
-#include <iostream>
-#include <fstream>
-#include <cctype>
-#include <chrono>
-#define TIME_UNIT nanoseconds
-#define REPS 3
-using namespace std;
-using namespace std::chrono;
-
-//Global Variable Declarations
-high_resolution_clock::time_point start;
-high_resolution_clock::time_point stop;
-int primesArr[250000];
-int count = 0;
-void loadPrimes(int);
-typedef std::chrono::duration<int,std::nano> timestamp;
-timestamp time1, time2, time3, avg;
-
-//Function declarations
-void binary(int repetitions, int arrSize, int a, int b, int c);
-void linear(int repetitions, int arrSize, int a, int b, int c);
-void interpolation(int repetitions, int arrSize, int a, int b, int c);
-int binarySearch(int arr[], int arrSize, int elem);             //returns count of iterations
-int linearSearch(int arr[], int arrSize, int elem);             //returns count of iterations
-int interpolationSearch(int arr[], int arrSize, int elem);      //returns count of iterations
-
-int main(){
-    
-    //Create output filestream to results.txt
+}
+searchAlgos::~searchAlgos(){
+}
+void searchAlgos::runSearches(int repetitions){
+    // load primes numbers from primes.txt into primesArr
     loadPrimes(250000);
-    
+
+    //Create output filestream
     ofstream ofs;
-    ofs.open("results.csv");
-    //write column headers to csv
+    
+    //open output filestream object to searchResults.csv and overwrite any existing data
+    ofs.open("searchResults.csv");
+    
+    //write column headers to searchResults.csv
     ofs << "Algorithm,Array Size,Repetition,Elem 1,Elem 1 Time (ns),Elem 1 Iterations,Elem 2,Elem 2 Time (ns),Elem 2 Iterations,Elem 3,Elem 3 Time (ns),Elem 3 Iterations,Avg (ns)" << endl;
     ofs.close();
-
-//Binary Search Algorithm Searches
+    
+    //Binary Search Algorithm Searches
     //usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
-    binary(REPS, 10, 2, 5, 7);
-    binary(REPS, 100, 3, 229, 523);
-    binary(REPS, 1000, 3, 3571, 7907);
-    binary(REPS, 10000, 3, 48611, 104723);
-    binary(REPS, 100000, 3, 611953, 1299689);
-    binary(REPS, 250000, 3, 1655131, 3497849);
+    binary(repetitions, 10, 2, 5, 7);
+    binary(repetitions, 100, 3, 229, 523);
+    binary(repetitions, 1000, 3, 3571, 7907);
+    binary(repetitions, 10000, 3, 48611, 104723);
+    binary(repetitions, 100000, 3, 611953, 1299689);
+    binary(repetitions, 250000, 3, 1655131, 3497849);
 
-//Linear Search Algorithm Searches
+    //Linear Search Algorithm Searches
     //usage: linear(repetitions, primesToSearch, searchPrime1, searchPrime2, searchPrime3)
-    linear(REPS, 10, 2, 5, 7);
-    linear(REPS, 100, 3, 229, 523);
-    linear(REPS, 1000, 3, 3571, 7907);
-    linear(REPS, 10000, 3, 48611, 104723);
-    linear(REPS, 100000, 3, 611953, 1299689);
-    linear(REPS, 250000, 3, 1655131, 3497849);
+    linear(repetitions, 10, 2, 5, 7);
+    linear(repetitions, 100, 3, 229, 523);
+    linear(repetitions, 1000, 3, 3571, 7907);
+    linear(repetitions, 10000, 3, 48611, 104723);
+    linear(repetitions, 100000, 3, 611953, 1299689);
+    linear(repetitions, 250000, 3, 1655131, 3497849);
 
-//Interpolation Search Algorithm Searches
+    //Interpolation Search Algorithm Searches
     //usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
-    interpolation(REPS, 10, 2, 5, 7);
-    interpolation(REPS, 100, 3, 229, 523);
-    interpolation(REPS, 1000, 3, 3571, 7907);
-    interpolation(REPS, 10000, 3, 48611, 104723);
-    interpolation(REPS, 100000, 3, 611953, 1299689);
-    interpolation(REPS, 250000, 3, 1655131, 3497849);
-    return 0;
+    interpolation(repetitions, 10, 2, 5, 7);
+    interpolation(repetitions, 100, 3, 229, 523);
+    interpolation(repetitions, 1000, 3, 3571, 7907);
+    interpolation(repetitions, 10000, 3, 48611, 104723);
+    interpolation(repetitions, 100000, 3, 611953, 1299689);
+    interpolation(repetitions, 250000, 3, 1655131, 3497849);
 }
-
-
-void binary(int repetitions, int arrSize, int a, int b, int c){
+void searchAlgos::binary(int repetitions, int arrSize, int a, int b, int c){
     //Write algorithm run information to csv
     ofstream ofs;
-    ofs.open("results.csv", std::ofstream::app);
+    ofs.open("searchResults.csv", std::ofstream::app);
     for(int i = 0; i < repetitions; i++){
         ofs << "Binary Search," << arrSize << "," << i+1 << ",";
         
         //search a
         count = binarySearch(primesArr, arrSize, a);
         time1 = duration_cast<TIME_UNIT>(stop - start);
-        ofs << a << "," << duration_cast<nanoseconds>(stop-start).count() << "," << count << ",";
+        ofs << a << "," << time1.count() << "," << count << ",";
         
         //search b
         count = binarySearch(primesArr, arrSize, b);
@@ -99,8 +76,8 @@ void binary(int repetitions, int arrSize, int a, int b, int c){
     }    
     ofs.close();
 }
-int binarySearch(int arr[], int arrSize, int elem){
-    start = high_resolution_clock::now();
+int searchAlgos::binarySearch(int arr[], int arrSize, int elem){
+    start = chrono::high_resolution_clock::now();
     int left = 0, right = arrSize-1, mid;
     count = 1;
     while(left <= right){
@@ -116,9 +93,9 @@ int binarySearch(int arr[], int arrSize, int elem){
     stop = chrono::high_resolution_clock::now();
     return -1;
 }
-void linear(int repetitions, int arrSize, int a, int b, int c){
+void searchAlgos::linear(int repetitions, int arrSize, int a, int b, int c){
     ofstream ofs;
-    ofs.open("results.csv", std::ofstream::app);
+    ofs.open("searchResults.csv", std::ofstream::app);
     for(int i = 0; i < repetitions; i++){    
         //Write algorithm run information to csv
         ofs << "Linear Search," << arrSize << "," << i+1 << ",";
@@ -143,8 +120,8 @@ void linear(int repetitions, int arrSize, int a, int b, int c){
     }
     ofs.close();
 }
-int linearSearch(int arr[], int arrSize, int elem){
-    start = high_resolution_clock::now();
+int searchAlgos::linearSearch(int arr[], int arrSize, int elem){
+    start = chrono::high_resolution_clock::now();
     int i;
     for(i = 0; i < arrSize; i++){
         if(arr[i] == elem){
@@ -155,10 +132,10 @@ int linearSearch(int arr[], int arrSize, int elem){
     stop = chrono::high_resolution_clock::now();
     return -1;
 }
-void interpolation(int repetitions, int arrSize, int a, int b, int c){
+void searchAlgos::interpolation(int repetitions, int arrSize, int a, int b, int c){
     //Write algorithm run information to csv
     ofstream ofs;
-    ofs.open("results.csv", std::ofstream::app);
+    ofs.open("searchResults.csv", std::ofstream::app);
     for(int i = 0; i < repetitions; i++){
         ofs << "Interpolation Search," << arrSize << "," << i+1 << ",";
         
@@ -182,8 +159,8 @@ void interpolation(int repetitions, int arrSize, int a, int b, int c){
     }    
     ofs.close();
 }
-int interpolationSearch(int arr[], int arrSize, int elem){
-    start = high_resolution_clock::now();
+int searchAlgos::interpolationSearch(int arr[], int arrSize, int elem){
+    start = chrono::high_resolution_clock::now();
     int left = 0, right = arrSize-1, pos;
     count = 1;
     while(left <= right && elem >= arr[left] && elem <= arr[right]){
@@ -196,7 +173,10 @@ int interpolationSearch(int arr[], int arrSize, int elem){
             return -1;
         }
         pos = left + ( ( (double)(right - left) / (arr[right] - arr[left])) * (elem - arr[left]));
-        if(arr[pos] == elem) return pos; 
+        if(arr[pos] == elem){
+            stop = chrono::high_resolution_clock::now();
+            return count; 
+        }
         if(arr[pos] < elem) left = pos + 1;
         else{
             right = pos - 1;
@@ -206,7 +186,7 @@ int interpolationSearch(int arr[], int arrSize, int elem){
     stop = chrono::high_resolution_clock::now();  
     return -1;
 }
-void loadPrimes(int loadSize) {
+void searchAlgos::loadPrimes(int loadSize) {
     //Open filestream to primes.txt and read first 250000 primes into primesArr
     ifstream fin;
     fin.open("primes.txt");
