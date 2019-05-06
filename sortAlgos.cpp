@@ -1,13 +1,3 @@
-/*
-
-int count = 0;
-high_resolution_clock::time_point start;
-high_resolution_clock::time_point stop;
-typedef std::chrono::duration<int,std::nano> timestamp;
-timestamp time1, time2, time3, time4, time5, time6, avg;
-*/
-
-
 // sortAlgos.cpp
 // 1 - Selection Sort
 // 2 - Heap Sort
@@ -41,19 +31,16 @@ void sortAlgos::sortAll(int repetitions){
         ofs << "Selection Sort," << i+1 << ",";
         shuffleArrays();       // load arrays with unsorted data
         selectionSorting(ofs); // sort all 6 arrays and write a line of results to sortResults.csv
-        ofs << "\n";
     }
     for(int i = 0; i < repetitions; i++){
         ofs << "Heap Sort," << i+1 << ",";
         shuffleArrays();       // load arrays with unsorted data
         heapSorting(ofs);      // sort all 6 arrays and write a line of results to sortResults.csv
-        ofs << "\n";
     }
     for(int i = 0; i < repetitions; i++){
         ofs << "Quick Sort," << i+1 << ",";
         shuffleArrays();       // load arrays with unsorted data
         quickSorting(ofs);     // sort all 6 arrays and write a line of results to sortResult.csv
-        ofs << "\n";
     }
     ofs.close();
 }
@@ -62,62 +49,46 @@ void sortAlgos::selectionSorting(ofstream& ofs){
     start = chrono::high_resolution_clock::now();
     selectionSort(sort10, 10);
     stop = chrono::high_resolution_clock::now();
-    time1 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time1.count() << "," << count << ",";
+    time1micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time1micro.count() << "," << count << ",";
 
     // sort List100.txt with selection sort
     start = chrono::high_resolution_clock::now();
     selectionSort(sort100, 100);
     stop = chrono::high_resolution_clock::now();
-    time2 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time2.count() << "," << count << ",";
+    time2micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time2micro.count() << "," << count << ",";
 
     // sort List1000.txt with selection sort
     start = chrono::high_resolution_clock::now();
     selectionSort(sort1000, 1000);
     stop = chrono::high_resolution_clock::now();
-    time3 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time3.count() << "," << count << ",";
+    time3micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time3micro.count() << "," << count << ",";
 
     // sort List10000.txt with selection sort
     start = chrono::high_resolution_clock::now();
     selectionSort(sort10000, 10000);
     stop = chrono::high_resolution_clock::now();
-    time4 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time4.count() << "," << count << ",";
+    time4micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time4micro.count() << "," << count << ",";
 
     // sort List100000.txt with selection sort
     start = chrono::high_resolution_clock::now();
     selectionSort(sort100000, 100000);
     stop = chrono::high_resolution_clock::now();
-    time5 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time5.count() << "," << count << ",";
-
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
+    time5micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time5micro.count() << "," << count << ",";
 
     // sort List250000.txt with selection sort
     start = chrono::high_resolution_clock::now();
     selectionSort(sort250000, 250000);
     stop = chrono::high_resolution_clock::now();
-    time6 = duration_cast<TIME_UNIT>(stop - start);
-    ofs << time6.count() << "," << count << ",";
-
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
+    time6micro = duration_cast<TIME_UNIT2>(stop - start);
+    ofs << time6micro.count() << "," << count << ",";
 
     // average of the 6 sorts
-    ofs << 1.0*(time1.count() + time2.count() + time3.count() + time4.count() + time5.count() + time6.count())/6 << endl;
+    ofs << 1.0*(time1micro.count() + time2micro.count() + time3micro.count() + time4micro.count() + time5micro.count() + time6micro.count())/6 << endl;
 }
 void sortAlgos::heapSorting(ofstream& ofs){
     // sort List10.txt with heap sort
@@ -155,28 +126,12 @@ void sortAlgos::heapSorting(ofstream& ofs){
     time5 = duration_cast<TIME_UNIT>(stop - start);
     ofs << time5.count() << "," << count << ",";
 
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
-    
     // sort List250000.txt with heap sort
     start = chrono::high_resolution_clock::now();
     heapSort(sort250000, 250000);
     stop = chrono::high_resolution_clock::now();
     time6 = duration_cast<TIME_UNIT>(stop - start);
     ofs << time6.count() << "," << count << ",";
-    
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
     
     // average of the 6 sorts
     ofs << 1.0*(time1.count() + time2.count() + time3.count() + time4.count() + time5.count() + time6.count())/6 << endl;
@@ -214,16 +169,6 @@ void sortAlgos::quickSorting(ofstream& ofs){
     time4 = duration_cast<TIME_UNIT>(stop - start);
     ofs << time4.count() << "," << count << ",";
 
-/*
-    for(int i = 0; i < 10000; i++){
-        cout << sort10000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
-    
-*/
     // sort List100000.txt with quick sort
     start = chrono::high_resolution_clock::now();
     count = 0;
@@ -232,16 +177,6 @@ void sortAlgos::quickSorting(ofstream& ofs){
     time5 = duration_cast<TIME_UNIT>(stop - start);
     ofs << time5.count() << "," << count << ",";
 
-/*
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
-*/
-
     // sort List250000.txt with quick sort
     start = chrono::high_resolution_clock::now();
     count = 0;
@@ -249,16 +184,6 @@ void sortAlgos::quickSorting(ofstream& ofs){
     stop = chrono::high_resolution_clock::now();
     time6 = duration_cast<TIME_UNIT>(stop - start);
     ofs << time6.count() << "," << count << ",";   
-
-/*
-    for(int i = 0; i < 100; i++){
-        cout << sort250000[i] << " ";
-        if(i % 9 == 0){
-            cout << endl;
-        }
-    }
-    cout << endl;
-*/
 
     // average of the 6 sorts
     ofs << 1.0*(time1.count() + time2.count() + time3.count() + time4.count() + time5.count() + time6.count())/6 << endl;

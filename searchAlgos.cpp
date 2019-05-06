@@ -3,27 +3,29 @@
 // 2 - Heap Sort
 // 3 - Quick Sort
 
-searchAlgos::searchAlgos(){
+// The search functions return the count of search iterations, rather than the position of a found element.
+// The search functions return -1 if the element is not found.
 
+searchAlgos::searchAlgos(){
 }
 searchAlgos::~searchAlgos(){
 }
 void searchAlgos::runSearches(int repetitions){
-    // load primes numbers from primes.txt into primesArr
+    // Load primes numbers from primes.txt into primesArr
     loadPrimes(250000);
 
-    //Create output filestream
+    // Create output filestream
     ofstream ofs;
     
-    //open output filestream object to searchResults.csv and overwrite any existing data
+    // Open output filestream object to searchResults.csv and overwrite any existing data
     ofs.open("searchResults.csv");
     
-    //write column headers to searchResults.csv
+    // Write column headers to searchResults.csv
     ofs << "Algorithm,Array Size,Repetition,Elem 1,Elem 1 Time (ns),Elem 1 Iterations,Elem 2,Elem 2 Time (ns),Elem 2 Iterations,Elem 3,Elem 3 Time (ns),Elem 3 Iterations,Avg (ns)" << endl;
     ofs.close();
     
-    //Binary Search Algorithm Searches
-    //usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
+    // Binary Search Algorithm Searches
+    // usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
     binary(repetitions, 10, 2, 5, 7);
     binary(repetitions, 100, 3, 229, 523);
     binary(repetitions, 1000, 3, 3571, 7907);
@@ -31,8 +33,8 @@ void searchAlgos::runSearches(int repetitions){
     binary(repetitions, 100000, 3, 611953, 1299689);
     binary(repetitions, 250000, 3, 1655131, 3497849);
 
-    //Linear Search Algorithm Searches
-    //usage: linear(repetitions, primesToSearch, searchPrime1, searchPrime2, searchPrime3)
+    // Linear Search Algorithm Searches
+    // usage: linear(repetitions, primesToSearch, searchPrime1, searchPrime2, searchPrime3)
     linear(repetitions, 10, 2, 5, 7);
     linear(repetitions, 100, 3, 229, 523);
     linear(repetitions, 1000, 3, 3571, 7907);
@@ -40,8 +42,8 @@ void searchAlgos::runSearches(int repetitions){
     linear(repetitions, 100000, 3, 611953, 1299689);
     linear(repetitions, 250000, 3, 1655131, 3497849);
 
-    //Interpolation Search Algorithm Searches
-    //usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
+    // Interpolation Search Algorithm Searches
+    // usage: binarySearchThree(primesToSearch, searchPrime1, searchPrime2, searchPrime3)
     interpolation(repetitions, 10, 2, 5, 7);
     interpolation(repetitions, 100, 3, 229, 523);
     interpolation(repetitions, 1000, 3, 3571, 7907);
@@ -50,7 +52,7 @@ void searchAlgos::runSearches(int repetitions){
     interpolation(repetitions, 250000, 3, 1655131, 3497849);
 }
 void searchAlgos::binary(int repetitions, int arrSize, int a, int b, int c){
-    //Write algorithm run information to csv
+    // Write algorithm run information to csv
     ofstream ofs;
     ofs.open("searchResults.csv", std::ofstream::app);
     for(int i = 0; i < repetitions; i++){
